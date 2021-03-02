@@ -1,8 +1,9 @@
 // jshint esversion:6
+
 // * Variables we are going to use
-let min = 1,
-	max = 10,
-	winningNum = 5,
+let min = 10,
+	max = 100,
+	winningNum = getRandomNum(min, max),
 	guessLeft = 3;
 
 // * Ui Elements we are going to use
@@ -83,3 +84,8 @@ game.addEventListener('mousedown', (e) => {
 		window.location.reload();
 	}
 });
+
+// * Random number function
+function getRandomNum(min, max) {
+	return Math.floor(Math.random() * (max - min + 1) + min);
+}
