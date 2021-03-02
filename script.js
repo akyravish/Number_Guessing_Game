@@ -1,8 +1,8 @@
 // jshint esversion:6
 
 // * Variables we are going to use
-let min = 10,
-	max = 100,
+let min = 1,
+	max = 10,
 	winningNum = getRandomNum(min, max),
 	guessLeft = 3;
 
