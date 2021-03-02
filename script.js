@@ -27,6 +27,19 @@ const setMessage = (msg, color) => {
 	message.style.color = color;
 };
 
+// * Gameover function to dry the code
+
+const gameOver = (won, msg) => {
+	let color;
+	won === true ? (color = 'green') : (color = 'red');
+	// disable the input
+	guessInput.disabled = true;
+	// set the color of border on the condition
+	guessInput.style.borderColor = color;
+	// set the message and color
+	setMessage(msg, color);
+};
+
 // * Add event listner on submit button
 // ! Here we are not using a form, so we can't use a submit event here
 
@@ -38,11 +51,25 @@ guessBtn.addEventListener('click', () => {
 	if (guess < min || guess > max || isNaN(guess)) {
 		setMessage(`Please enter a number between ${min} & ${max}`, 'red');
 	} else if (guess === winningNum) {
-		// if answer is corred, we are going to disable the input and add it border color to green
-		guessInput.disabled = true;
-		guessInput.style.borderColor = 'green';
-		setMessage(`Yes, ${winningNum} number is correct, YOU WIN!`, 'green');
+		// Gameover, you won
+		gameOver(true, `Yes, ${winningNum} number is correct, YOU WIN!`);
 	} else {
-		setMessage(`Your guessed number is wrong, please try again`);
+		// Decrease the guess left
+		guessLeft -= 1;
+
+		if (guessLeft === 0) {
+			// if all guess are over. game over , you lost
+			gameOver(
+				false,
+				`Game Over. You Lost. The correct answer is ${winningNum}`
+			);
+		} else {
+			setMessage(
+				`${guessInput.value} is wrong number, ${guessLeft} guess left.`,
+				'red'
+			);
+			// empty the guess input value
+			guessInput.value = '';
+		}
 	}
 });
