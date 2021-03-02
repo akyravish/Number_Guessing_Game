@@ -32,12 +32,17 @@ const setMessage = (msg, color) => {
 const gameOver = (won, msg) => {
 	let color;
 	won === true ? (color = 'green') : (color = 'red');
-	// disable the input
-	guessInput.disabled = true;
-	// set the color of border on the condition
-	guessInput.style.borderColor = color;
-	// set the message and color
-	setMessage(msg, color);
+	guessInput.disabled = true; // disable the input
+	guessInput.style.borderColor = color; // set the color of border on the condition
+	setMessage(msg, color); // set the message and color
+};
+
+// * Play Again Function
+const playAgain = () => {
+	// set the value of submit to Play again
+	guessBtn.value = 'Play Again';
+	// Add a class
+	guessBtn.className += 'play-again';
 };
 
 // * Add event listner on submit button
@@ -49,27 +54,32 @@ guessBtn.addEventListener('click', () => {
 	// Validate the guess number
 
 	if (guess < min || guess > max || isNaN(guess)) {
-		setMessage(`Please enter a number between ${min} & ${max}`, 'red');
+		setMessage(`Please enter a number between ${min} & ${max}`, 'red'); // if value is less or greater then min and max
 	} else if (guess === winningNum) {
-		// Gameover, you won
-		gameOver(true, `Yes, ${winningNum} number is correct, YOU WIN!`);
+		gameOver(true, `Yes, ${winningNum} number is correct, YOU WIN!`); // Gameover, you won
+		playAgain(); // play Again
 	} else {
-		// Decrease the guess left
-		guessLeft -= 1;
-
+		guessLeft -= 1; // Decrease the guess left
 		if (guessLeft === 0) {
 			// if all guess are over. game over , you lost
 			gameOver(
 				false,
 				`Game Over. You Lost. The correct answer is ${winningNum}`
 			);
+			playAgain();
 		} else {
 			setMessage(
 				`${guessInput.value} is wrong number, ${guessLeft} guess left.`,
 				'red'
 			);
-			// empty the guess input value
-			guessInput.value = '';
+			guessInput.value = ''; // empty the guess input value
 		}
+	}
+});
+
+// * Play again event listner
+game.addEventListener('mousedown', (e) => {
+	if (e.target.classList.contains('play-again')) {
+		window.location.reload();
 	}
 });
